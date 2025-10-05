@@ -32,43 +32,6 @@
             overflow-x: hidden;
         }
         
-        /* 顶部导航菜单 */
-        .top-nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: center;
-            padding: 10px 0;
-        }
-        
-        .nav-container {
-            display: flex;
-            width: 100%;
-            max-width: 1200px;
-            justify-content: space-around;
-        }
-        
-        .nav-item {
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 500;
-            font-size: 14px;
-            color: var(--dark);
-        }
-        
-        .nav-item:hover, .nav-item.active {
-            background: var(--primary);
-            color: white;
-        }
-        
         /* 页面通用样式 */
         .page {
             position: fixed;
@@ -78,29 +41,28 @@
             height: 100%;
             background: white;
             z-index: 10;
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275),
                         opacity 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        
+
         .page.hidden {
             transform: scale(0.95);
             opacity: 0;
             pointer-events: none;
         }
-        
+
         .page-header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             color: white;
             padding: 15px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             position: relative;
             overflow: hidden;
-            margin-top: 50px; /* 为顶部导航留出空间 */
         }
-        
+
         .page-header::before {
             content: '';
             position: absolute;
@@ -111,15 +73,18 @@
             background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
             animation: pulse 8s infinite linear;
         }
-        
+
         .page-title {
             font-size: 20px;
             font-weight: bold;
             position: relative;
             z-index: 1;
+            text-align: center;
         }
-        
+
         .back-btn {
+            position: absolute;
+            left: 15px;
             background: rgba(255,255,255,0.2);
             border: none;
             color: white;
@@ -130,37 +95,36 @@
             padding: 8px 15px;
             border-radius: 20px;
             transition: all 0.3s;
-            position: relative;
             z-index: 1;
             overflow: hidden;
         }
-        
+
         .back-btn:hover {
             background: rgba(255,255,255,0.3);
             transform: translateX(-5px);
         }
-        
+
         .back-btn i {
             margin-right: 5px;
         }
-        
+
         .page-content {
             flex: 1;
             padding: 20px;
             overflow-y: auto;
         }
-        
+
         /* 主页样式 */
         .home-page {
             display: flex;
             flex-direction: column;
         }
-        
+
         .home-header {
             text-align: center;
             padding: 15px;
         }
-        
+
         .logo-container {
             display: flex;
             flex-direction: column;
@@ -170,7 +134,7 @@
             position: relative;
             z-index: 1;
         }
-        
+
         .logo-img {
             height: 60px;
             width: auto;
@@ -178,30 +142,58 @@
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
-        
+
         .logo-text {
             font-size: 22px;
             font-weight: bold;
             color: white;
         }
-        
+
         .notice {
             font-size: 14px;
             opacity: 0.9;
             position: relative;
             z-index: 1;
+            margin-bottom: 10px;
         }
-        
+
+        /* 刷新按钮样式 */
+        .refresh-menu {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: all 0.3s;
+            z-index: 1;
+        }
+
+        .refresh-menu:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(30deg);
+        }
+
+        .refresh-menu i {
+            margin-right: 5px;
+        }
+
         .services {
             padding: 15px;
-            height: calc(100vh - 190px); /* 调整高度适应顶部导航 */
+            height: calc(100vh - 180px);
             overflow-y: auto;
         }
-        
+
         .service-section {
             margin-bottom: 25px;
         }
-        
+
         .section-title {
             color: var(--primary);
             margin: 15px 0 10px;
@@ -209,7 +201,7 @@
             border-bottom: 2px solid var(--primary);
             font-size: 18px;
         }
-        
+
         .service-item {
             background: var(--card-bg);
             border-radius: 12px;
@@ -225,12 +217,12 @@
             position: relative;
             overflow: hidden;
         }
-        
+
         .service-item:hover {
             transform: translateY(-8px) scale(1.02);
             box-shadow: 0 12px 20px rgba(0,0,0,0.15);
         }
-        
+
         .service-item:nth-child(1) { animation-delay: 0.1s; }
         .service-item:nth-child(2) { animation-delay: 0.2s; }
         .service-item:nth-child(3) { animation-delay: 0.3s; }
@@ -241,31 +233,31 @@
         .service-item:nth-child(8) { animation-delay: 0.8s; }
         .service-item:nth-child(9) { animation-delay: 0.9s; }
         .service-item:nth-child(10) { animation-delay: 1.0s; }
-        
+
         .service-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 10px;
         }
-        
+
         .service-title {
             font-size: 16px;
             font-weight: bold;
             color: var(--primary);
         }
-        
+
         .service-price {
             font-weight: bold;
             color: var(--accent);
             font-size: 18px;
         }
-        
+
         .service-desc {
             font-size: 14px;
             color: #666;
         }
-        
+
         .join-btn {
             display: block;
             width: 90%;
@@ -281,13 +273,13 @@
             transition: all 0.3s;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
-        
+
         .join-btn:hover {
             background: var(--primary);
             transform: translateY(-3px);
             box-shadow: 0 6px 12px rgba(0,0,0,0.15);
         }
-        
+
         .footer {
             text-align: center;
             padding: 15px;
@@ -295,24 +287,43 @@
             font-size: 12px;
             border-top: 1px solid #eee;
             position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-        
+
+        .exam-link {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .exam-link:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
         /* 详情页样式 */
         .detail-page {
             display: none;
             flex-direction: column;
             transform: translateX(100%) scale(0.9);
             opacity: 0;
-            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275),
                         opacity 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        
+
         .detail-page.active {
             display: flex;
             transform: translateX(0) scale(1);
             opacity: 1;
         }
-        
+
         .service-info {
             background: var(--card-bg);
             border-radius: 10px;
@@ -323,13 +334,13 @@
             opacity: 0;
             transition: transform 0.5s ease, opacity 0.5s ease;
         }
-        
+
         .detail-page.active .service-info {
             transform: translateY(0);
             opacity: 1;
             transition-delay: 0.2s;
         }
-        
+
         .service-name {
             font-size: 24px;
             font-weight: bold;
@@ -521,95 +532,6 @@
             background: var(--accent-dark);
         }
 
-        /* 考核区域样式 */
-        .exam-section {
-            background: var(--card-bg);
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            transform: translateY(20px);
-            opacity: 0;
-            transition: transform 0.5s ease, opacity 0.5s ease;
-        }
-
-        .exam-section.active {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .exam-title {
-            font-size: 24px;
-            font-weight: bold;
-            color: var(--primary);
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .exam-description {
-            font-size: 16px;
-            color: #666;
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
-
-        .exam-requirements {
-            margin-bottom: 20px;
-        }
-
-        .requirements-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: var(--primary);
-        }
-
-        .requirements-list {
-            list-style: none;
-        }
-
-        .requirements-list li {
-            padding: 8px 0;
-            border-bottom: 1px solid #f5f5f5;
-            display: flex;
-            align-items: center;
-        }
-
-        .requirements-list li i {
-            color: var(--primary);
-            margin-right: 10px;
-        }
-
-        .exam-contact-info {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: #f9f9f9;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 15px 0;
-        }
-
-        .exam-contact-number {
-            font-size: 18px;
-            font-weight: bold;
-            color: var(--primary);
-        }
-
-        .exam-copy-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .exam-copy-btn:hover {
-            background: var(--primary-dark);
-        }
-
         /* 动画定义 */
         @keyframes fadeInUp {
             from {
@@ -712,18 +634,6 @@
     </style>
 </head>
 <body>
-    <!-- 顶部导航菜单 -->
-    <div class="top-nav" id="topNav">
-        <div class="nav-container">
-            <div class="nav-item active" data-target="newbie">新人专享</div>
-            <div class="nav-item" data-target="basic">保底单</div>
-            <div class="nav-item" data-target="gold">大金单</div>
-            <div class="nav-item" data-target="hunt">猎T单</div>
-            <div class="nav-item" data-target="wheel">转盘单</div>
-            <div class="nav-item" data-target="exam">考核</div>
-        </div>
-    </div>
-
     <!-- 加载动画 -->
     <div class="loader" id="loader">
         <div class="loader-content">
@@ -745,6 +655,11 @@
                 <div class="logo-text">世兴俱乐部</div>
             </div>
             <div class="notice">专业游戏护航服务 · 绝对诚信无篡改概率</div>
+
+            <!-- 刷新按钮 -->
+            <button class="refresh-menu" id="refreshBtn">
+                <i class="fas fa-sync-alt"></i> 刷新
+            </button>
         </div>
 
         <div class="services" id="servicesContainer">
@@ -887,44 +802,13 @@
                     <div class="service-desc">一次机会，转盘样式私聊</div>
                 </div>
             </div>
-
-            <!-- 考核区域 -->
-            <div class="service-section" id="exam">
-                <div class="section-title">考核</div>
-                <div class="exam-section">
-                    <div class="exam-title">加入世兴俱乐部打手团队</div>
-                    <div class="exam-description">
-                        我们正在寻找技术过硬、责任心强的游戏打手加入我们的专业团队。请加入考核群进行申请。
-                    </div>
-
-                    <div class="exam-requirements">
-                        <div class="requirements-title">考核要求</div>
-                        <ul class="requirements-list">
-                            <li><i class="fas fa-check"></i> 熟悉游戏机制，具备良好的游戏技术</li>
-                            <li><i class="fas fa-check"></i> 有责任心，能够按时完成护航任务</li>
-                            <li><i class="fas fa-check"></i> 良好的沟通能力，能够与客户有效沟通</li>
-                            <li><i class="fas fa-check"></i> 稳定的在线时间，能够接受排班安排</li>
-                            <li><i class="fas fa-check"></i> 遵守团队规则，服从管理安排</li>
-                        </ul>
-                    </div>
-
-                    <div class="exam-contact-info">
-                        <div>
-                            <div style="font-size: 14px; color: #666;">考核微信群</div>
-                            <div class="exam-contact-number" id="examContactNumber">1067993024</div>
-                        </div>
-                        <button class="exam-copy-btn" id="copyExamContactNumber">复制群号</button>
-                    </div>
-
-                    <div style="margin-top: 15px; font-size: 12px; color: #999; text-align: center;">
-                        请加考核群进行申请，管理员会在群内联系您
-                    </div>
-                </div>
-            </div>
         </div>
 
         <div class="footer">
             <p>绝对诚信，无篡改概率，有问题可申诉</p>
+            <div class="exam-link" id="examLink">
+                <i class="fas fa-user-plus"></i> 加入打手团队考核
+            </div>
         </div>
     </div>
 
@@ -935,7 +819,6 @@
                 <i class="fas fa-arrow-left"></i> 返回
             </button>
             <div class="page-title" id="detailTitle">服务详情</div>
-            <div style="width: 60px;"></div>
         </div>
 
         <div class="page-content">
@@ -1337,8 +1220,22 @@
         const contactNumber = document.getElementById('contactNumber');
         const copyContactNumber = document.getElementById('copyContactNumber');
         const purchaseBtn = document.getElementById('purchaseBtn');
-        const examContactNumber = document.getElementById('examContactNumber');
-        const copyExamContactNumber = document.getElementById('copyExamContactNumber');
+        const refreshBtn = document.getElementById('refreshBtn');
+        const examLink = document.getElementById('examLink');
+
+        // 刷新按钮点击事件
+        refreshBtn.addEventListener('click', function() {
+            // 添加旋转动画
+            refreshBtn.style.transform = 'rotate(360deg)';
+
+            // 应用新的随机主题
+            applyRandomTheme();
+
+            // 重置旋转动画
+            setTimeout(function() {
+                refreshBtn.style.transform = 'rotate(0deg)';
+            }, 500);
+        });
 
         // 服务项点击事件
         document.querySelectorAll('.service-item').forEach(item => {
@@ -1401,73 +1298,14 @@
             });
         });
 
-        // 复制考核群号功能
-        copyExamContactNumber.addEventListener('click', function() {
-            const contactNum = examContactNumber.textContent;
-            navigator.clipboard.writeText(contactNum).then(function() {
-                // 复制成功提示
-                const originalText = copyExamContactNumber.textContent;
-                copyExamContactNumber.textContent = '已复制';
-                copyExamContactNumber.style.background = 'var(--success)';
-
-                setTimeout(function() {
-                    copyExamContactNumber.textContent = originalText;
-                    copyExamContactNumber.style.background = 'var(--primary)';
-                }, 2000);
-            });
-        });
-
         // 购买按钮点击事件
         purchaseBtn.addEventListener('click', function() {
             alert('请添加微信 ' + contactNumber.textContent + ' 联系客服购买此服务');
         });
 
-        // 导航菜单点击事件
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', function() {
-                // 移除所有active类
-                document.querySelectorAll('.nav-item').forEach(nav => {
-                    nav.classList.remove('active');
-                });
-
-                // 添加active类到当前项
-                this.classList.add('active');
-
-                // 滚动到对应区域
-                const targetId = this.getAttribute('data-target');
-                const targetElement = document.getElementById(targetId);
-                if (targetElement) {
-                    document.getElementById('servicesContainer').scrollTo({
-                        top: targetElement.offsetTop - 60,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-
-        // 滚动时自动切换菜单激活状态
-        const servicesContainer = document.getElementById('servicesContainer');
-        const navItems = document.querySelectorAll('.nav-item');
-        const sections = document.querySelectorAll('.service-section');
-
-        servicesContainer.addEventListener('scroll', function() {
-            let currentSection = '';
-
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop - 100;
-                const sectionHeight = section.clientHeight;
-                if (servicesContainer.scrollTop >= sectionTop &&
-                    servicesContainer.scrollTop < sectionTop + sectionHeight) {
-                    currentSection = section.getAttribute('id');
-                }
-            });
-
-            navItems.forEach(item => {
-                item.classList.remove('active');
-                if (item.getAttribute('data-target') === currentSection) {
-                    item.classList.add('active');
-                }
-            });
+        // 考核链接点击事件
+        examLink.addEventListener('click', function() {
+            alert('请添加考核群：1067993024，管理员会在群内联系您进行考核');
         });
     </script>
 </body>
