@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>世兴俱乐部 - 专业游戏护航服务</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        :root {
+            --primary: #8e44ad;
+            --primary-dark: #6c3483;
+            --accent: #e74c3c;
+            --accent-dark: #c0392b;
+            --secondary: #3498db;
+            --light: #f8f9fa;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --card-bg: #ffffff;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* 页面通用样式 */
+        .page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 10;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                        opacity 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .page.hidden {
+            transform: scale(0.95);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 8s infinite linear;
+        }
+
+        .page-title {
+            font-size: 20px;
+            font-weight: bold;
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .back-btn {
+            position: absolute;
+            left: 15px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: all 0.3s;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateX(-5px);
+        }
+
+        .back-btn i {
+            margin-right: 5px;
+        }
+
+        .page-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        /* 主页样式 */
+        .home-page {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .home-header {
+            text-align: center;
+            padding: 15px;
+        }
+
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-img {
+            height: 60px;
+            width: auto;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .notice {
+            font-size: 14px;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 10px;
+        }
+
+        /* 刷新按钮样式 */
+        .refresh-menu {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: all 0.3s;
+            z-index: 1;
+        }
+
+        .refresh-menu:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(30deg);
+        }
+
+        .refresh-menu i {
+            margin-right: 5px;
+        }
+
+        .services {
+            padding: 15px;
+            height: calc(100vh - 180px);
+            overflow-y: auto;
+        }
+
+        .service-section {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            color: var(--primary);
+            margin: 15px 0 10px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid var(--primary);
+            font-size: 18px;
+        }
+
+        .service-item {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-left: 5px solid var(--primary);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInUp 0.6s forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-item:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+        }
+
+        .service-item:nth-child(1) { animation-delay: 0.1s; }
+        .service-item:nth-child(2) { animation-delay: 0.2s; }
+        .service-item:nth-child(3) { animation-delay: 0.3s; }
+        .service-item:nth-child(4) { animation-delay: 0.4s; }
+        .service-item:nth-child(5) { animation-delay: 0.5s; }
+        .service-item:nth-child(6) { animation-delay: 0.6s; }
+        .service-item:nth-child(7) { animation-delay: 0.7s; }
+        .service-item:nth-child(8) { animation-delay: 0.8s; }
+        .service-item:nth-child(9) { animation-delay: 0.9s; }
+        .service-item:nth-child(10) { animation-delay: 1.0s; }
+
+        .service-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .service-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .service-price {
+            font-weight: bold;
+            color: var(--accent);
+            font-size: 18px;
+        }
+
+        .service-desc {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .join-btn {
+            display: block;
+            width: 90%;
+            margin: 15px auto;
+            padding: 12px;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .join-btn:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 15px;
+            color: #666;
+            font-size: 12px;
+            border-top: 1px solid #eee;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .exam-link {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .exam-link:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* 详情页样式 */
+        .detail-page {
+            display: none;
+            flex-direction: column;
+            transform: translateX(100%) scale(0.9);
+            opacity: 0;
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                        opacity 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .detail-page.active {
+            display: flex;
+            transform: translateX(0) scale(1);
+            opacity: 1;
+        }
+
+        .service-info {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+
+        .detail-page.active .service-info {
+            transform: translateY(0);
+            opacity: 1;
+            transition-delay: 0.2s;
+        }
+
+        .service-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .service-price-large {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+
+        .service-description {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .service-features {
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .features-list {
+            list-style: none;
+        }
+
+        .features-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #f5f5f5;
+            display: flex;
+            align-items: center;
+        }
+
+        .features-list li i {
+            color: var(--primary);
+            margin-right: 10px;
+        }
+
+        .service-notes {
+            padding: 15px;
+            background: rgba(var(--primary-rgb), 0.1);
+            border-radius: 8px;
+            font-size: 14px;
+            color: #666;
+            border-left: 4px solid var(--primary);
+        }
+
+        .rules-section {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(var(--accent-rgb), 0.1);
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+
+        .detail-page.active .rules-section {
+            transform: translateY(0);
+            opacity: 1;
+            transition-delay: 0.3s;
+        }
+
+        .rules-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--accent);
+        }
+
+        .rules-list {
+            list-style: none;
+        }
+
+        .rules-list li {
+            padding: 5px 0;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .rules-list li i {
+            color: var(--accent);
+            margin-right: 8px;
+            margin-top: 2px;
+        }
+
+        .purchase-section {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+
+        .detail-page.active .purchase-section {
+            transform: translateY(0);
+            opacity: 1;
+            transition-delay: 0.4s;
+        }
+
+        .purchase-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .purchase-steps {
+            margin-bottom: 20px;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .step-number {
+            width: 24px;
+            height: 24px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            margin-right: 10px;
+        }
+
+        .contact-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .contact-number {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .copy-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .purchase-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+
+        .purchase-btn:hover {
+            background: var(--accent-dark);
+        }
+
+        /* 动画定义 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* 加载动画 */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-content {
+            text-align: center;
+            color: white;
+        }
+
+        .loader-logo {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .loader-logo i {
+            color: var(--accent);
+        }
+
+        .loader-bar {
+            width: 200px;
+            height: 4px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 2px;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        .loader-progress {
+            height: 100%;
+            width: 0%;
+            background: var(--accent);
+            border-radius: 2px;
+            animation: loading 2s ease-in-out forwards;
+        }
+
+        @keyframes loading {
+            0% {
+                width: 0%;
+            }
+            100% {
+                width: 100%;
+            }
+        }
+
+        /* 响应式调整 */
+        @media (min-width: 768px) {
+            .detail-content {
+                flex-direction: row;
+                gap: 20px;
+            }
+
+            .service-info {
+                flex: 2;
+            }
+
+            .purchase-section {
+                flex: 1;
+                height: fit-content;
+                position: sticky;
+                top: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 加载动画 -->
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <div class="loader-logo">
+                <i class="fas fa-gamepad"></i>
+            </div>
+            <div>世兴俱乐部</div>
+            <div class="loader-bar">
+                <div class="loader-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主页 -->
+    <div class="page home-page" id="homePage">
+        <div class="page-header home-header">
+            <div class="logo-container">
+                <img src="logo.png" alt="世兴俱乐部" class="logo-img">
+                <div class="logo-text">世兴俱乐部</div>
+            </div>
+            <div class="notice">专业游戏护航服务 · 绝对诚信无篡改概率</div>
+
+            <!-- 刷新按钮 -->
+            <button class="refresh-menu" id="refreshBtn">
+                <i class="fas fa-sync-alt"></i> 刷新
+            </button>
+        </div>
+
+        <div class="services" id="servicesContainer">
+            <!-- 新人单 -->
+            <div class="service-section" id="newbie">
+                <div class="section-title">新人专享</div>
+                <div class="service-item" data-service="newbie">
+                    <div class="service-header">
+                        <div class="service-title">保120万</div>
+                        <div class="service-price">9.9元</div>
+                    </div>
+                    <div class="service-desc">新人专享，超高性价比</div>
+                </div>
+            </div>
+
+            <!-- 基础保底单 -->
+            <div class="service-section" id="basic">
+                <div class="section-title">保底单</div>
+                <div class="service-item" data-service="basic-1">
+                    <div class="service-header">
+                        <div class="service-title">保40万</div>
+                        <div class="service-price">9.9元</div>
+                    </div>
+                    <div class="service-desc">基础保底服务</div>
+                </div>
+
+                <div class="service-item" data-service="basic-2">
+                    <div class="service-header">
+                        <div class="service-title">保100万</div>
+                        <div class="service-price">19.9元</div>
+                    </div>
+                    <div class="service-desc">标准保底服务</div>
+                </div>
+
+                <div class="service-item" data-service="basic-3">
+                    <div class="service-header">
+                        <div class="service-title">保150万</div>
+                        <div class="service-price">29.9元</div>
+                    </div>
+                    <div class="service-desc">高级保底服务</div>
+                </div>
+
+                <div class="service-item" data-service="basic-4">
+                    <div class="service-header">
+                        <div class="service-title">保300万</div>
+                        <div class="service-price">49.9元</div>
+                    </div>
+                    <div class="service-desc">豪华保底服务</div>
+                </div>
+
+                <div class="service-item" data-service="basic-5">
+                    <div class="service-header">
+                        <div class="service-title">保420万</div>
+                        <div class="service-price">69.9元</div>
+                    </div>
+                    <div class="service-desc">尊享保底服务</div>
+                </div>
+
+                <div class="service-item" data-service="basic-6">
+                    <div class="service-header">
+                        <div class="service-title">保630万</div>
+                        <div class="service-price">89.9元</div>
+                    </div>
+                    <div class="service-desc">至尊保底服务</div>
+                </div>
+            </div>
+
+            <!-- 大金单 -->
+            <div class="service-section" id="gold">
+                <div class="section-title">大金单</div>
+                <div class="service-item" data-service="gold-1">
+                    <div class="service-header">
+                        <div class="service-title">保1大金</div>
+                        <div class="service-price">35元</div>
+                    </div>
+                    <div class="service-desc">不出不结</div>
+                </div>
+
+                <div class="service-item" data-service="gold-2">
+                    <div class="service-header">
+                        <div class="service-title">保2大金</div>
+                        <div class="service-price">55元</div>
+                    </div>
+                    <div class="service-desc">不出不结</div>
+                </div>
+
+                <div class="service-item" data-service="gold-3">
+                    <div class="service-header">
+                        <div class="service-title">保指定大金</div>
+                        <div class="service-price">40元</div>
+                    </div>
+                    <div class="service-desc">不出不结</div>
+                </div>
+            </div>
+
+            <!-- 猎T单 -->
+            <div class="service-section" id="hunt">
+                <div class="section-title">猎T单</div>
+                <div class="service-item" data-service="hunt-1">
+                    <div class="service-header">
+                        <div class="service-title">保1T</div>
+                        <div class="service-price">35元</div>
+                    </div>
+                    <div class="service-desc">专业猎T团队</div>
+                </div>
+
+                <div class="service-item" data-service="hunt-2">
+                    <div class="service-header">
+                        <div class="service-title">保2T</div>
+                        <div class="service-price">60元</div>
+                    </div>
+                    <div class="service-desc">专业猎T团队</div>
+                </div>
+
+                <div class="service-item" data-service="hunt-3">
+                    <div class="service-header">
+                        <div class="service-title">保3T</div>
+                        <div class="service-price">80元</div>
+                    </div>
+                    <div class="service-desc">专业猎T团队</div>
+                </div>
+
+                <div class="service-item" data-service="hunt-4">
+                    <div class="service-header">
+                        <div class="service-title">保5T</div>
+                        <div class="service-price">100元</div>
+                    </div>
+                    <div class="service-desc">专业猎T团队</div>
+                </div>
+            </div>
+
+            <!-- 转盘单 -->
+            <div class="service-section" id="wheel">
+                <div class="section-title">转盘单</div>
+                <div class="service-item" data-service="wheel">
+                    <div class="service-header">
+                        <div class="service-title">转盘抽奖</div>
+                        <div class="service-price">25元</div>
+                    </div>
+                    <div class="service-desc">一次机会，转盘样式私聊</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>绝对诚信，无篡改概率，有问题可申诉</p>
+            <div class="exam-link" id="examLink">
+                <i class="fas fa-user-plus"></i> 加入打手团队考核
+            </div>
+        </div>
+    </div>
+
+    <!-- 详情页 -->
+    <div class="page detail-page" id="detailPage">
+        <div class="page-header">
+            <button class="back-btn" id="backBtn">
+                <i class="fas fa-arrow-left"></i> 返回
+            </button>
+            <div class="page-title" id="detailTitle">服务详情</div>
+        </div>
+
+        <div class="page-content">
+            <div class="service-info">
+                <div class="service-name" id="detailName">服务名称</div>
+                <div class="service-price-large" id="detailPrice">价格</div>
+                <div class="service-description" id="detailDesc">服务描述</div>
+
+                <div class="service-features" id="detailFeaturesContainer">
+                    <div class="feature-title">服务特性</div>
+                    <ul class="features-list" id="detailFeatures">
+                        <!-- 特性将通过JS动态添加 -->
+                    </ul>
+                </div>
+
+                <div class="service-notes" id="detailNotes">备注信息</div>
+
+                <div class="rules-section">
+                    <div class="rules-title">服务规则</div>
+                    <ul class="rules-list">
+                        <li><i class="fas fa-exclamation-triangle"></i> 打手全掉，老板撤离按照炸单处理</li>
+                        <li><i class="fas fa-shield-alt"></i> 打手5套以上装备保障</li>
+                        <li><i class="fas fa-money-bill-wave"></i> 打手其他违规将视情况退还费用</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="purchase-section">
+                <div class="purchase-title">购买流程</div>
+
+                <div class="purchase-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div>添加官方微信</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div>联系客服说明需求</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div>提供订单信息</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div>等待安排打手，开始服务</div>
+                    </div>
+                </div>
+
+                <div class="contact-info">
+                    <div>
+                        <div style="font-size: 14px; color: #666;">官方微信</div>
+                        <div class="contact-number" id="contactNumber">weixing123456789CE</div>
+                    </div>
+                    <button class="copy-btn" id="copyContactNumber">复制微信号</button>
+                </div>
+
+                <button class="purchase-btn" id="purchaseBtn">立即购买</button>
+
+                <div style="margin-top: 15px; font-size: 12px; color: #999; text-align: center;">
+                    购买后请添加微信联系客服，提供订单信息
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 定义更多主题
+        const themes = [
+            {
+                name: "紫色主题",
+                primary: "#8e44ad",
+                primaryDark: "#6c3483",
+                accent: "#e74c3c",
+                accentDark: "#c0392b",
+                secondary: "#3498db",
+                success: "#2ecc71"
+            },
+            {
+                name: "蓝色主题",
+                primary: "#3498db",
+                primaryDark: "#2980b9",
+                accent: "#e74c3c",
+                accentDark: "#c0392b",
+                secondary: "#9b59b6",
+                success: "#2ecc71"
+            },
+            {
+                name: "绿色主题",
+                primary: "#27ae60",
+                primaryDark: "#219653",
+                accent: "#e74c3c",
+                accentDark: "#c0392b",
+                secondary: "#3498db",
+                success: "#2ecc71"
+            },
+            {
+                name: "橙色主题",
+                primary: "#e67e22",
+                primaryDark: "#d35400",
+                accent: "#3498db",
+                accentDark: "#2980b9",
+                secondary: "#9b59b6",
+                success: "#2ecc71"
+            },
+            {
+                name: "红色主题",
+                primary: "#e74c3c",
+                primaryDark: "#c0392b",
+                accent: "#3498db",
+                accentDark: "#2980b9",
+                secondary: "#9b59b6",
+                success: "#2ecc71"
+            },
+            {
+                name: "青色主题",
+                primary: "#1abc9c",
+                primaryDark: "#16a085",
+                accent: "#e74c3c",
+                accentDark: "#c0392b",
+                secondary: "#3498db",
+                success: "#2ecc71"
+            },
+            {
+                name: "粉色主题",
+                primary: "#e84393",
+                primaryDark: "#c44569",
+                accent: "#0984e3",
+                accentDark: "#0767b0",
+                secondary: "#fdcb6e",
+                success: "#00b894"
+            },
+            {
+                name: "深蓝主题",
+                primary: "#2d3436",
+                primaryDark: "#1e272e",
+                accent: "#f53b57",
+                accentDark: "#e84118",
+                secondary: "#0fb9b1",
+                success: "#05c46b"
+            },
+            {
+                name: "金色主题",
+                primary: "#ff9f1a",
+                primaryDark: "#cc7a00",
+                accent: "#6c5ce7",
+                accentDark: "#5649c0",
+                secondary: "#00cec9",
+                success: "#00b894"
+            },
+            {
+                name: "深紫主题",
+                primary: "#6c5ce7",
+                primaryDark: "#5649c0",
+                accent: "#fd79a8",
+                accentDark: "#e84393",
+                secondary: "#81ecec",
+                success: "#55efc4"
+            },
+            {
+                name: "棕色主题",
+                primary: "#a55eea",
+                primaryDark: "#8854d0",
+                accent: "#20bf6b",
+                accentDark: "#16a085",
+                secondary: "#fed330",
+                success: "#26de81"
+            },
+            {
+                name: "青蓝主题",
+                primary: "#3867d6",
+                primaryDark: "#2d57b5",
+                accent: "#fc5c65",
+                accentDark: "#eb3b5a",
+                secondary: "#4b7bec",
+                success: "#20bf6b"
+            }
+        ];
+
+        // 随机选择一个主题
+        function applyRandomTheme() {
+            const randomTheme = themes[Math.floor(Math.random() * themes.length)];
+
+            // 应用主题到CSS变量
+            document.documentElement.style.setProperty('--primary', randomTheme.primary);
+            document.documentElement.style.setProperty('--primary-dark', randomTheme.primaryDark);
+            document.documentElement.style.setProperty('--accent', randomTheme.accent);
+            document.documentElement.style.setProperty('--accent-dark', randomTheme.accentDark);
+            document.documentElement.style.setProperty('--secondary', randomTheme.secondary);
+            document.documentElement.style.setProperty('--success', randomTheme.success);
+
+            // 设置服务备注的背景色
+            document.documentElement.style.setProperty('--primary-rgb',
+                parseInt(randomTheme.primary.slice(1, 3), 16) + ',' +
+                parseInt(randomTheme.primary.slice(3, 5), 16) + ',' +
+                parseInt(randomTheme.primary.slice(5, 7), 16));
+
+            // 设置规则部分的背景色
+            document.documentElement.style.setProperty('--accent-rgb',
+                parseInt(randomTheme.accent.slice(1, 3), 16) + ',' +
+                parseInt(randomTheme.accent.slice(3, 5), 16) + ',' +
+                parseInt(randomTheme.accent.slice(5, 7), 16));
+        }
+
+        // 页面加载完成后应用随机主题并隐藏加载动画
+        window.addEventListener('load', function() {
+            applyRandomTheme();
+
+            setTimeout(function() {
+                document.getElementById('loader').classList.add('hidden');
+            }, 2000);
+        });
+
+        // 服务详情数据
+        const serviceDetails = {
+            'newbie': {
+                title: '保120万',
+                price: '9.9元',
+                desc: '新人专享服务，超高性价比，适合初次体验护航服务的玩家。',
+                features: [
+                    '保120万撤离',
+                    '专业护航团队',
+                    '适合新手玩家',
+                    '超高性价比'
+                ],
+                notes: '新人专享，仅限首次购买。服务完成后请确认收货。'
+            },
+            'basic-1': {
+                title: '保40万',
+                price: '9.9元',
+                desc: '基础保底服务，适合预算有限的玩家。',
+                features: [
+                    '保40万撤离',
+                    '专业护航团队',
+                    '适合预算有限玩家'
+                ],
+                notes: '基础保底服务。服务完成后请确认收货。'
+            },
+            'basic-2': {
+                title: '保100万',
+                price: '19.9元',
+                desc: '标准保底服务，提供更全面的保护。',
+                features: [
+                    '保100万撤离',
+                    '专业护航团队',
+                    '更全面的保护'
+                ],
+                notes: '标准保底服务。服务完成后请确认收货。'
+            },
+            'basic-3': {
+                title: '保150万',
+                price: '29.9元',
+                desc: '高级保底服务，提供更高级别的安全保障。',
+                features: [
+                    '保150万撤离',
+                    '专业护航团队',
+                    '高级别安全保障'
+                ],
+                notes: '高级保底服务。服务完成后请确认收货。'
+            },
+            'basic-4': {
+                title: '保300万',
+                price: '49.9元',
+                desc: '豪华保底服务，提供豪华级别的护航体验。',
+                features: [
+                    '保300万撤离',
+                    '专业护航团队',
+                    '豪华护航体验'
+                ],
+                notes: '豪华保底服务。服务完成后请确认收货。'
+            },
+            'basic-5': {
+                title: '保420万',
+                price: '69.9元',
+                desc: '尊享保底服务，提供尊享级别的护航体验。',
+                features: [
+                    '保420万撤离',
+                    '专业护航团队',
+                    '尊享护航体验'
+                ],
+                notes: '尊享保底服务。服务完成后请确认收货。'
+            },
+            'basic-6': {
+                title: '保630万',
+                price: '89.9元',
+                desc: '至尊保底服务，提供最高级别的护航体验。',
+                features: [
+                    '保630万撤离',
+                    '专业护航团队',
+                    '最高级别护航体验'
+                ],
+                notes: '至尊保底服务。服务完成后请确认收货。'
+            },
+            'gold-1': {
+                title: '保1大金',
+                price: '35元',
+                desc: '大金单基础服务，专业寻宝团队，高效率收集大金物品。',
+                features: [
+                    '保底一个大金',
+                    '不出不结',
+                    '专业寻宝团队',
+                    '高效率收集大金'
+                ],
+                notes: '不出不结。目标定位模块、热成像模块、阵列镜片、理想国试剂盒、机密文件除外。服务完成后请确认收货。'
+            },
+            'gold-2': {
+                title: '保2大金',
+                price: '55元',
+                desc: '大金单升级服务，保底两个大金，更高保障。',
+                features: [
+                    '保底两个大金',
+                    '不出不结',
+                    '专业寻宝团队',
+                    '高效率收集大金'
+                ],
+                notes: '不出不结。目标定位模块、热成像模块、阵列镜片、理想国试剂盒、机密文件除外。服务完成后请确认收货。'
+            },
+            'gold-3': {
+                title: '保指定大金',
+                price: '40元',
+                desc: '大金单高级服务，保底指定大金，最高级别保障。',
+                features: [
+                    '保底指定大金',
+                    '不出不结',
+                    '专业寻宝团队',
+                    '高效率收集指定大金'
+                ],
+                notes: '不出不结。目标定位模块、热成像模块、阵列镜片、理想国试剂盒、机密文件除外。服务完成后请确认收货。'
+            },
+            'hunt-1': {
+                title: '保1T',
+                price: '35元',
+                desc: '猎T单基础服务，专业猎T团队，高效率完成任务。',
+                features: [
+                    '保1个T',
+                    '专业猎T团队',
+                    '高效率完成任务'
+                ],
+                notes: '猎T单服务。服务完成后请确认收货。'
+            },
+            'hunt-2': {
+                title: '保2T',
+                price: '60元',
+                desc: '猎T单升级服务，保两个T，更高保障。',
+                features: [
+                    '保2个T',
+                    '专业猎T团队',
+                    '高效率完成任务'
+                ],
+                notes: '猎T单服务。服务完成后请确认收货。'
+            },
+            'hunt-3': {
+                title: '保3T',
+                price: '80元',
+                desc: '猎T单高级服务，保三个T，更全面保障。',
+                features: [
+                    '保3个T',
+                    '专业猎T团队',
+                    '高效率完成任务'
+                ],
+                notes: '猎T单服务。服务完成后请确认收货。'
+            },
+            'hunt-4': {
+                title: '保5T',
+                price: '100元',
+                desc: '猎T单顶级服务，保五个T，最高级别保障。',
+                features: [
+                    '保5个T',
+                    '专业猎T团队',
+                    '高效率完成任务'
+                ],
+                notes: '猎T单服务。服务完成后请确认收货。'
+            },
+            'wheel': {
+                title: '转盘抽奖',
+                price: '25元',
+                desc: '转盘抽奖服务，一次机会，绝对诚信无篡改概率。',
+                features: [
+                    '一次抽奖机会',
+                    '绝对诚信无篡改概率',
+                    '转盘样式私聊',
+                    '公平公正'
+                ],
+                notes: '转盘样式需私聊确定。绝对诚信无篡改概率。服务完成后请确认收货。'
+            }
+        };
+
+        // 页面元素
+        const homePage = document.getElementById('homePage');
+        const detailPage = document.getElementById('detailPage');
+        const backBtn = document.getElementById('backBtn');
+        const detailTitle = document.getElementById('detailTitle');
+        const detailName = document.getElementById('detailName');
+        const detailPrice = document.getElementById('detailPrice');
+        const detailDesc = document.getElementById('detailDesc');
+        const detailFeatures = document.getElementById('detailFeatures');
+        const detailFeaturesContainer = document.getElementById('detailFeaturesContainer');
+        const detailNotes = document.getElementById('detailNotes');
+        const contactNumber = document.getElementById('contactNumber');
+        const copyContactNumber = document.getElementById('copyContactNumber');
+        const purchaseBtn = document.getElementById('purchaseBtn');
+        const refreshBtn = document.getElementById('refreshBtn');
+        const examLink = document.getElementById('examLink');
+
+        // 刷新按钮点击事件
+        refreshBtn.addEventListener('click', function() {
+            // 添加旋转动画
+            refreshBtn.style.transform = 'rotate(360deg)';
+
+            // 应用新的随机主题
+            applyRandomTheme();
+
+            // 重置旋转动画
+            setTimeout(function() {
+                refreshBtn.style.transform = 'rotate(0deg)';
+            }, 500);
+        });
+
+        // 服务项点击事件
+        document.querySelectorAll('.service-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const serviceId = this.getAttribute('data-service');
+                const service = serviceDetails[serviceId];
+
+                if (service) {
+                    detailTitle.textContent = service.title;
+                    detailName.textContent = service.title;
+                    detailPrice.textContent = service.price;
+                    detailDesc.textContent = service.desc;
+
+                    // 清空特性列表
+                    detailFeatures.innerHTML = '';
+
+                    // 添加特性
+                    if (service.features.length > 0) {
+                        detailFeaturesContainer.style.display = 'block';
+                        service.features.forEach(feature => {
+                            const li = document.createElement('li');
+                            li.innerHTML = `<i class="fas fa-check"></i> ${feature}`;
+                            detailFeatures.appendChild(li);
+                        });
+                    } else {
+                        detailFeaturesContainer.style.display = 'none';
+                    }
+
+                    // 添加备注
+                    detailNotes.textContent = service.notes;
+
+                    // 切换到详情页
+                    homePage.classList.add('hidden');
+                    detailPage.classList.add('active');
+                }
+            });
+        });
+
+        // 返回按钮点击事件
+        backBtn.addEventListener('click', function() {
+            detailPage.classList.remove('active');
+            setTimeout(function() {
+                homePage.classList.remove('hidden');
+            }, 300);
+        });
+
+        // 复制微信号功能
+        copyContactNumber.addEventListener('click', function() {
+            const contactNum = contactNumber.textContent;
+            navigator.clipboard.writeText(contactNum).then(function() {
+                // 复制成功提示
+                const originalText = copyContactNumber.textContent;
+                copyContactNumber.textContent = '已复制';
+                copyContactNumber.style.background = 'var(--success)';
+
+                setTimeout(function() {
+                    copyContactNumber.textContent = originalText;
+                    copyContactNumber.style.background = 'var(--primary)';
+                }, 2000);
+            });
+        });
+
+        // 购买按钮点击事件
+        purchaseBtn.addEventListener('click', function() {
+            alert('请添加微信 ' + contactNumber.textContent + ' 联系客服购买此服务');
+        });
+
+        // 考核链接点击事件
+        examLink.addEventListener('click', function() {
+            alert('请添加考核群：1067993024，管理员会在群内联系您进行考核');
+        });
+    </script>
+</body>
+</html>
